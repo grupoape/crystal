@@ -1,0 +1,1479 @@
+<html><head><base href="/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crystal Legends Wiki</title>
+  <style>
+    :root {
+      --primary: #2a0e61;
+      --secondary: #6242e9;
+      --accent: #9f1ae2;
+      --text: #ffffff;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .language-selector {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+    }
+
+    .language-button {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      padding: 8px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .language-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .language-options {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 8px;
+      background: rgba(42, 14, 97, 0.95);
+      border-radius: 10px;
+      padding: 8px 0;
+      display: none;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      min-width: 150px;
+    }
+
+    .language-options.show {
+      display: block;
+    }
+
+    .language-option {
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .language-option:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .flag-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr 80px;
+      gap: 20px;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      max-width: 200px;
+    }
+
+    .announcement {
+      background: rgba(159, 26, 226, 0.2);
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid var(--accent);
+      flex-grow: 1;
+    }
+
+    .content {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 25px;
+      backdrop-filter: blur(10px);
+    }
+
+    .social-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: sticky;
+      top: 20px;
+    }
+
+    .social-button {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .social-button:hover {
+      background: var(--accent);
+      transform: scale(1.1);
+    }
+
+    .social-button svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--text);
+    }
+
+    h1, h2 {
+      color: #fff;
+      text-shadow: 0 0 10px rgba(159, 26, 226, 0.5);
+    }
+
+    .game-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .info-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 15px;
+      backdrop-filter: blur(5px);
+    }
+
+    .store-button.social-button {
+      width: 50px;
+      height: 50px;
+      padding: 0;
+      border-radius: 50%;
+    }
+
+    .store-button.social-button svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--text);
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      margin-top: 15px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .cta-button:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(159, 26, 226, 0.3);
+    }
+
+    .back-button {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      padding: 10px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    #heroesSection {
+      display: none;
+    }
+
+    #helpSection {
+      display: none;
+    }
+
+    #mainContent {
+      display: block;
+    }
+
+    .codes-button {
+      position: absolute;
+      top: 20px;
+      left: 200px;
+      z-index: 100;
+    }
+
+    .codes-popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .codes-popup.show {
+      display: flex;
+    }
+
+    .codes-popup-content {
+      background: var(--primary);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .codes-popup h2 {
+      margin-top: 0;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .codes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .code-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .code-item span {
+      font-family: monospace;
+      font-size: 16px;
+    }
+
+    .code-item button {
+      background: var(--accent);
+      color: var(--text);
+      border: none;
+      padding: 5px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .code-item button:hover {
+      background: var(--secondary);
+      transform: scale(1.05);
+    }
+
+    .close-button {
+      display: block;
+      margin: 20px auto 0;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      border: none;
+      padding: 8px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .close-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .codes-button .language-button {
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .codes-button .language-button svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .hero-image-container {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .hero-portrait {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+      border: 3px solid var(--accent);
+      transition: transform 0.3s ease;
+    }
+
+    .hero-portrait:hover {
+      transform: scale(1.05);
+    }
+
+    .hero-popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-popup.show {
+      display: flex;
+    }
+
+    .hero-popup-content {
+      background: var(--primary);
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 800px; /* Updated from 600px */
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .hero-info {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      flex-direction: row; /* Added */
+    }
+
+    .skill {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+
+    .skill h4 {
+      color: var(--accent);
+      margin: 0 0 10px 0;
+    }
+
+    .skill ul {
+      margin: 10px 0;
+      padding-left: 20px;
+    }
+
+    .skill li {
+      margin: 5px 0;
+    }
+
+    .welcome-logo {
+      width: 200px;
+      margin: 0 auto 20px;
+      display: block;
+    }
+
+    .exit-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--accent);
+      color: var(--text);
+      padding: 10px 20px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+
+    .exit-button:hover {
+      background: var(--secondary);
+      transform: scale(1.05);
+    }
+
+    /* Add styles for help section */
+    .help-image {
+      max-width: 500px;
+      width: 100%;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+
+    /* Add styles for tier list */
+    .tier-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+
+    .tier-image-container {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+
+<div id="welcomeScreen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, var(--primary), var(--secondary)); z-index: 9999; display: flex; justify-content: center; align-items: center;">
+  <div style="background: rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 20px; backdrop-filter: blur(10px); max-width: 600px; width: 90%;">
+    <img src="https://i.ibb.co/XFLCJzz/image.webp" alt="Crystal Legends Logo" class="welcome-logo">
+    <h1 style="text-align: center; color: var(--text); margin-bottom: 30px;">Welcome to Crystal Legends Wiki</h1>
+    <p style="text-align: center; color: var(--text); margin-bottom: 30px;">Please select your preferred language:</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+      <button onclick="selectInitialLanguage(&apos;en&apos;, &apos;https://flagcdn.com/w20/us.png&apos;, &apos;English&apos;)" class="language-option" style="display: flex; align-items: center; gap: 10px; padding: 15px; background: rgba(255, 255, 255, 0.1); border: none; color: var(--text); border-radius: 10px; cursor: pointer; width: 100%;">
+        <img src="https://flagcdn.com/w20/us.png" alt="English" class="flag-icon">
+        English
+      </button>
+      <button onclick="selectInitialLanguage(&apos;pt&apos;, &apos;https://flagcdn.com/w20/br.png&apos;, &apos;Portugu&#xea;s&apos;)" class="language-option" style="display: flex; align-items: center; gap: 10px; padding: 15px; background: rgba(255, 255, 255, 0.1); border: none; color: var(--text); border-radius: 10px; cursor: pointer; width: 100%;">
+        <img src="https://flagcdn.com/w20/br.png" alt="Portugu&#xea;s" class="flag-icon">
+        Portugu&#xea;s
+      </button>
+      <button onclick="selectInitialLanguage(&apos;es&apos;, &apos;https://flagcdn.com/w20/es.png&apos;, &apos;Espa&#xf1;ol&apos;)" class="language-option" style="display: flex; align-items: center; gap: 10px; padding: 15px; background: rgba(255, 255, 255, 0.1); border: none; color: var(--text); border-radius: 10px; cursor: pointer; width: 100%;">
+        <img src="https://flagcdn.com/w20/es.png" alt="Espa&#xf1;ol" class="flag-icon">
+        Espa&#xf1;ol
+      </button>
+      <button onclick="selectInitialLanguage(&apos;zh&apos;, &apos;https://flagcdn.com/w20/cn.png&apos;, &apos;&#x4e2d;&#x6587;&apos;)" class="language-option" style="display: flex; align-items: center; gap: 10px; padding: 15px; background: rgba(255, 255, 255, 0.1); border: none; color: var(--text); border-radius: 10px; cursor: pointer; width: 100%;">
+        <img src="https://flagcdn.com/w20/cn.png" alt="&#x4e2d;&#x6587;" class="flag-icon">
+        &#x4e2d;&#x6587;
+      </button>
+      <button onclick="selectInitialLanguage(&apos;bg&apos;, &apos;https://flagcdn.com/w20/bg.png&apos;, &apos;&#x411;&#x44a;&#x43b;&#x433;&#x430;&#x440;&#x441;&#x43a;&#x438;&apos;)" class="language-option" style="display: flex; align-items: center; gap: 10px; padding: 15px; background: rgba(255, 255, 255, 0.1); border: none; color: var(--text); border-radius: 10px; cursor: pointer; width: 100%;">
+        <img src="https://flagcdn.com/w20/bg.png" alt="&#x411;&#x44a;&#x43b;&#x433;&#x430;&#x440;&#x441;&#x43a;&#x438;" class="flag-icon">
+        &#x411;&#x44a;&#x43b;&#x433;&#x430;&#x440;&#x441;&#x43a;&#x438;
+      </button>
+      <button onclick="selectInitialLanguage(&apos;de&apos;, &apos;https://flagcdn.com/w20/de.png&apos;, &apos;Deutsch&apos;)" class="language-option" style="display: flex; align-items: center; gap: 10px; padding: 15px; background: rgba(255, 255, 255, 0.1); border: none; color: var(--text); border-radius: 10px; cursor: pointer; width: 100%;">
+        <img src="https://flagcdn.com/w20/de.png" alt="Deutsch" class="flag-icon">
+        Deutsch
+      </button>
+      <button onclick="selectInitialLanguage(&apos;ko&apos;, &apos;https://flagcdn.com/w20/kr.png&apos;, &apos;Korean&apos;)" class="language-option" style="display: flex; align-items: center; gap: 10px; padding: 15px; background: rgba(255, 255, 255, 0.1); border: none; color: var(--text); border-radius: 10px; cursor: pointer; width: 100%;">
+        <img src="https://flagcdn.com/w20/kr.png" alt="Korean" class="flag-icon">
+        Korean
+      </button>
+      <button onclick="selectInitialLanguage(&apos;ro&apos;, &apos;https://flagcdn.com/w20/ro.png&apos;, &apos;Romeno&apos;)" class="language-option" style="display: flex; align-items: center; gap: 10px; padding: 15px; background: rgba(255, 255, 255, 0.1); border: none; color: var(--text); border-radius: 10px; cursor: pointer; width: 100%;">
+        <img src="https://flagcdn.com/w20/ro.png" alt="Romeno" class="flag-icon">
+        Romeno
+      </button>
+    </div>
+  </div>
+</div>
+
+<button id="exitButton" class="exit-button" onclick="showWelcomeScreen()" style="display: none;">Exit</button>
+
+<div class="language-selector">
+  <button class="language-button" onclick="toggleLanguageOptions()">
+    <img src="https://flagcdn.com/w20/us.png" alt="English" class="flag-icon">
+    <span id="currentLanguage">English</span>
+  </button>
+  <div class="language-options" id="languageOptions">
+    <div class="language-option" onclick="changeLanguage(&apos;en&apos;, &apos;https://flagcdn.com/w20/us.png&apos;, &apos;English&apos;)">
+      <img src="https://flagcdn.com/w20/us.png" alt="English" class="flag-icon">
+      English
+    </div>
+    <div class="language-option" onclick="changeLanguage(&apos;pt&apos;, &apos;https://flagcdn.com/w20/br.png&apos;, &apos;Portugu&#xea;s&apos;)">
+      <img src="https://flagcdn.com/w20/br.png" alt="Portugu&#xea;s" class="flag-icon">
+      Portugu&#xea;s
+    </div>
+    <div class="language-option" onclick="changeLanguage(&apos;es&apos;, &apos;https://flagcdn.com/w20/es.png&apos;, &apos;Espa&#xf1;ol&apos;)">
+      <img src="https://flagcdn.com/w20/es.png" alt="Espa&#xf1;ol" class="flag-icon">
+      Espa&#xf1;ol
+    </div>
+    <div class="language-option" onclick="changeLanguage(&apos;zh&apos;, &apos;https://flagcdn.com/w20/cn.png&apos;, &apos;&#x4e2d;&#x6587;&apos;)">
+      <img src="https://flagcdn.com/w20/cn.png" alt="&#x4e2d;&#x6587;" class="flag-icon">
+      &#x4e2d;&#x6587;
+    </div>
+    <div class="language-option" onclick="changeLanguage(&apos;bg&apos;, &apos;https://flagcdn.com/w20/bg.png&apos;, &apos;&#x411;&#x44a;&#x43b;&#x433;&#x430;&#x440;&#x441;&#x43a;&#x438;&apos;)">
+      <img src="https://flagcdn.com/w20/bg.png" alt="&#x411;&#x44a;&#x43b;&#x433;&#x430;&#x440;&#x441;&#x43a;&#x438;" class="flag-icon">
+      &#x411;&#x44a;&#x43b;&#x433;&#x430;&#x440;&#x441;&#x43a;&#x438;
+    </div>
+    <div class="language-option" onclick="changeLanguage(&apos;de&apos;, &apos;https://flagcdn.com/w20/de.png&apos;, &apos;Deutsch&apos;)">
+      <img src="https://flagcdn.com/w20/de.png" alt="Deutsch" class="flag-icon">
+      Deutsch
+    </div>
+    <div class="language-option" onclick="changeLanguage(&apos;ko&apos;, &apos;https://flagcdn.com/w20/kr.png&apos;, &apos;Korean&apos;)">
+      <img src="https://flagcdn.com/w20/kr.png" alt="Korean" class="flag-icon">
+      Korean
+    </div>
+    <div class="language-option" onclick="changeLanguage(&apos;ro&apos;, &apos;https://flagcdn.com/w20/ro.png&apos;, &apos;Romeno&apos;)">
+      <img src="https://flagcdn.com/w20/ro.png" alt="Romeno" class="flag-icon">
+      Romeno
+    </div>
+  </div>
+</div>
+
+<div class="codes-button">
+  <button class="language-button" onclick="toggleCodesPopup()">
+    <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;">
+      <path fill="currentColor" d="M21.58 16.09l-1.09-7.66A3.996 3.996 0 0016.53 5H7.47C5.48 5 3.79 6.46 3.51 8.43l-1.09 7.66C2.2 17.63 3.39 19 4.94 19c.68 0 1.32-.27 1.8-.75L9 16h6l2.25 2.25c.48.48 1.13.75 1.8.75 1.56 0 2.75-1.37 2.53-2.91zM11 11H9v2H8v-2H6v-1h2V8h1v2h2v1zm4-1c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm2 3c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+    </svg>
+  </button>
+</div>
+
+<div class="codes-popup" id="codesPopup">
+  <div class="codes-popup-content">
+    <h2>Active Game Codes</h2>
+    <div class="codes-list">
+      <div class="code-item">
+        <span>showmethemoney</span>
+        <button onclick="copyCode(&apos;showmethemoney&apos;)">Copy</button>
+      </div>
+      <div class="code-item">
+        <span>greedisgood</span>
+        <button onclick="copyCode(&apos;greedisgood&apos;)">Copy</button>
+      </div>
+      <div class="code-item">
+        <span>whosyourdaddy</span>
+        <button onclick="copyCode(&apos;whosyourdaddy&apos;)">Copy</button>
+      </div>
+      <div class="code-item">
+        <span>randomdraft</span>
+        <button onclick="copyCode(&apos;randomdraft&apos;)">Copy</button>
+      </div>
+      <div class="code-item">
+        <span>Snipergogo</span>
+        <button onclick="copyCode(&apos;Snipergogo&apos;)">Copy</button>
+      </div>
+      <div class="code-item">
+        <span>df57sufwir</span>
+        <button onclick="copyCode(&apos;df57sufwir&apos;)">Copy</button>
+      </div>
+    </div>
+    <button class="close-button" onclick="toggleCodesPopup()">Close</button>
+  </div>
+</div>
+
+<div class="container">
+  <main class="content">
+    <div id="mainContent">
+      <div class="logo-container">
+        <img src="https://i.ibb.co/XFLCJzz/image.webp" alt="Crystal Legends Logo" class="logo">
+        <div class="announcement">
+          We&apos;ve just released exciting new features! Check out the latest changes and enhancements to enhance your experience.
+        </div>
+      </div>
+      
+      <h1>Welcome to Crystal Legends Wiki</h1>
+      
+      <div class="game-info">
+        <div class="info-card">
+          <h2>About the Game</h2>
+          <p>Crystal Legends is an epic mobile RPG that combines strategic gameplay with stunning visuals. Embark on an extraordinary journey through a mystical realm where powerful crystals hold the key to ultimate power.</p>
+        </div>
+        
+        <div class="info-card">
+          <h2>Features</h2>
+          <ul>
+            <li>Collect and evolve unique heroes</li>
+            <li>Strategic turn-based combat</li>
+            <li>PvP arena battles</li>
+            <li>Guild warfare</li>
+            <li>Regular events and updates</li>
+          </ul>
+        </div>
+        
+        <div class="info-card">
+          <h2>Heroes</h2>
+          <p>In Crystal Legends, heroes are the backbone of your journey. Each hero is unique, with special abilities and traits that bring something valuable to your team. From powerful Paladins to enigmatic Sorcerers, you&apos;ll encounter a wide array of legendary figures, each with their own background and strengths.</p>
+          <button class="cta-button" onclick="showHeroes()">Click here to learn more about Heroes</button>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h2>Ajuda</h2>
+        <p>Encontre respostas r&#xe1;pidas para d&#xfa;vidas comuns e solu&#xe7;&#xf5;es para problemas frequentes. Explore nossos guias e dicas para aproveitar ao m&#xe1;ximo a experi&#xea;ncia.</p>
+        <button class="cta-button" onclick="showHelp()">Acesse Aqui</button>
+      </div>
+
+      <div class="info-card">
+        <h2>Tier List</h2>
+        <p>Confira nossa tierlist para ver quais her&#xf3;is, se destacam no jogo! Descubra os melhores para otimizar sua estrat&#xe9;gia e alcan&#xe7;ar a vit&#xf3;ria.</p>
+        <button class="cta-button" onclick="showTierList()">Veja aqui</button>
+      </div>
+    </div>
+
+    <div id="helpSection">
+      <a href="#" class="back-button" onclick="showMain()">&#x2190; Back to Main Page</a>
+      <h1>Se&#xe7;&#xe3;o de Ajuda</h1>
+      <div class="info-card">
+        <h2>Dicas &#xda;teis</h2>
+        <p>No jogo, ao clicar v&#xe1;rias vezes na imagem do banner atual localizado no mapa, voc&#xea; ser&#xe1; recompensado com 200 diamantes. Aproveite essa oportunidade para acumular diamantes extras, que podem ser usados para melhorar sua experi&#xea;ncia no jogo. Lembre-se de que &#xe9; necess&#xe1;rio clicar v&#xe1;rias vezes para obter a recompensa, ent&#xe3;o n&#xe3;o deixe de explorar o mapa e garantir sua premia&#xe7;&#xe3;o!</p>
+        <img src="https://i.ibb.co/fG7VcdJ/00.jpg" alt="Banner Tip" class="help-image">
+      </div>
+    </div>
+
+    <div id="tierListSection" style="display: none;">
+      <a href="#" class="back-button" onclick="showMain()">&#x2190; Back to Main Page</a>
+      <h1>Se&#xe7;&#xe3;o de Tier List</h1>
+      <div class="info-card">
+        <h2>Tier List de Her&#xf3;is</h2>
+        <p>Nossa tierlist de her&#xf3;is foi cuidadosamente elaborada para ajudar voc&#xea; a escolher os melhores personagens para sua equipe. Analisamos as habilidades, for&#xe7;a, versatilidade e desempenho de cada her&#xf3;i em diferentes situa&#xe7;&#xf5;es do jogo. Veja quais her&#xf3;is dominam o campo de batalha e quais podem ser mais eficazes em sua estrat&#xe9;gia. Com esta tierlist, voc&#xea; poder&#xe1; otimizar sua sele&#xe7;&#xe3;o de her&#xf3;is e alcan&#xe7;ar o topo do jogo, veja abaixo:</p>
+        <div class="tier-image-container">
+          <img src="https://i.ibb.co/ScNRSsD/366be8ac-34d5-42ed-9dcf-954116b60618.png" alt="Tier List" class="tier-image">
+        </div>
+      </div>
+    </div>
+
+    <div id="heroesSection">
+      <a href="#" class="back-button" onclick="showMain()">&#x2190; Back to Main Page</a>
+      <h1>Heroes Section</h1>
+      <div class="info-card">
+        <h2>Heroes of Crystal Legends</h2>
+        <p>In Crystal Legends, heroes are the backbone of your journey. Each hero is unique, with special abilities and traits that bring something valuable to your team. From powerful Paladins to enigmatic Sorcerers, you&apos;ll encounter a wide array of legendary figures, each with their own background and strengths.</p>
+      </div>
+      <div class="hero-image-container">
+        <img src="https://i.ibb.co/hHmyMx0/17.jpg" alt="Captain Hero" class="hero-portrait" onclick="showHeroPopup()">
+      </div>
+      <div id="heroPopup" class="hero-popup">
+        <div class="hero-popup-content">
+          <h2>Hero Details</h2>
+          <div class="hero-info">
+            <img src="https://i.ibb.co/hHmyMx0/17.jpg" alt="Captain Hero" class="hero-portrait">
+            <div class="hero-details">
+              <p><strong>Name:</strong> Captain</p>
+              <p><strong>Tier:</strong> T3</p>
+              
+              <h3>Abilities</h3>
+              
+              <div class="skill">
+                <h4 data-skill="spectralShip">Spectral Ship</h4>
+                <p>Summons a ship to charge toward enemies, dealing Magic Damage and Stunning them.</p>
+                <ul>
+                  <li>LV 1: Sends allies and captain a rum boost, garanting them 20% final physical.</li>
+                  <li>LV 2: Increases Damage dealt to 4.9 Magic Intensity.</li>
+                  <li>LV 3: Extends Stun duration to 5 seconds.</li>
+                </ul>
+              </div>
+
+              <div class="skill">
+                <h4 data-skill="floodSurge">Flood Surge</h4>
+                <p>Summons flood to attack a random enemy, dealing Magic Damage, inflicting Knockup and Stun.</p>
+                <ul>
+                  <li>LV 1: Increases Damage dealt to 1.4 Magic Intensity.</li>
+                  <li>LV 2: Extends Stun duration to 3 seconds.</li>
+                  <li>LV 3: Increases Damage dealt to 1.6 Magic Intensity.</li>
+                </ul>
+              </div>
+
+              <div class="skill">
+                <h4 data-skill="aquaticBlade">Aquatic Blade</h4>
+                <p>Wields the blade, dealing Physical Damage to enemies in a small range.</p>
+                <ul>
+                  <li>LV 1: Reduces Move Speed and Haste of enemies hit by Aquatic Blade by 25 for 3 seconds.</li>
+                  <li>LV 2: Increases Damage dealt to 1.2 Physical Attack.</li>
+                  <li>LV 3: Increases Damage dealt to 1.4 Physical Attack.</li>
+                </ul>
+              </div>
+
+              <div class="skill">
+                <h4 data-skill="empoweredForce">Empowered Force</h4>
+                <p>Increases Strength.</p>
+                <ul>
+                  <li>LV 1: Increases Strength by 15.</li>
+                  <li>LV 2: Increases Strength by 25.</li>
+                  <li>LV 3: Increases Strength by 40.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <button class="close-button" onclick="hideHeroPopup()">Close</button>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <aside class="social-buttons">
+    <a href="https://bit.ly/CrystalLegendsAndroid" class="social-button store-button" title="Google Play">
+      <svg viewBox="0 0 24 24">
+        <path fill="currentColor" d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993s-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993s-.4482.9997-.9993.9997M17.523 7.39617c-.5511 0-.9993-.44863-.9993-.99966s.4482-.99966.9993-.99966c.5511 0 .9993.44863.9993.99966s-.4482.99966-.9993.99966M6.47697 7.39617c-.55107 0-.99934-.44863-.99934-.99966s.44827-.99966.99934-.99966c.55107 0 .99934.44863.99934.99966s-.44827.99966-.99934.99966M12 16.6098c-2.86374 0-5.19231-2.3286-5.19231-5.1923 0-2.86374 2.32857-5.19231 5.19231-5.19231 2.8637 0 5.1923 2.32857 5.1923 5.19231 0 2.8637-2.3286 5.1923-5.1923 5.1923"/>
+      </svg>
+    </a>
+    <a href="https://bit.ly/CrystalLegendsiOS" class="social-button store-button" title="App Store">
+      <svg viewBox="0 0 24 24">
+        <path fill="currentColor" d="M16.462 16.462c-.415.415-.866.78-1.354 1.093-.42.27-.85.506-1.294.704-.444.198-.894.355-1.344.47-.45.115-.9.188-1.35.218-.45.03-.9.018-1.35-.037-.45-.055-.894-.152-1.332-.29-.438-.14-.87-.32-1.29-.54-.42-.22-.824-.48-1.208-.78-.384-.3-.744-.64-1.074-1.01-.33-.37-.624-.77-.876-1.2-.252-.43-.456-.88-.612-1.344-.156-.464-.262-.94-.318-1.42-.056-.48-.062-.96-.018-1.44.044-.48.138-.95.282-1.41.144-.46.336-.9.576-1.32.24-.42.522-.81.846-1.17.324-.36.684-.69 1.074-.98.39-.29.804-.54 1.236-.75.432-.21.876-.37 1.326-.48.45-.11.906-.17 1.362-.18.456-.01.91.03 1.356.12.446.09.882.23 1.302.42.42.19.816.43 1.182.71.366.28.696.6.984.95.288.35.534.73.732 1.13.198.4.348.82.444 1.24.096.42.138.85.126 1.28-.012.43-.078.85-.198 1.26-.12.41-.29.8-.51 1.17-.22.37-.48.71-.78 1.01m3.13-12.716c-.143-.212-.334-.386-.57-.522-.236-.136-.51-.23-.82-.282s-.636-.062-.97-.036c-.334.026-.656.095-.966.207-.31.112-.594.265-.85.459-.256.194-.466.422-.63.684-.164.262-.276.545-.336.848-.06.303-.06.61 0 .92.06.31.174.6.342.87.168.27.386.5.654.69.268.19.562.33.882.42.32.09.644.13.97.12.326-.01.638-.07.936-.18.298-.11.57-.27.816-.48.246-.21.45-.46.612-.75.162-.29.276-.6.342-.93.066-.33.082-.66.048-.99-.034-.33-.118-.64-.252-.93-.134-.29-.306-.54-.516-.75m-6.428-1.592l-4.00389-.72669L12 0l2.84 1.428z"/>
+      </svg>
+    </a>
+    <a href="https://www.facebook.com/share/19mQEh3hRb" class="social-button" title="Facebook">
+      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12.001 2.002c-5.522 0-9.999 4.477-9.999 9.999 0 4.99 3.656 9.126 8.437 9.879v-6.988h-2.54v-2.891h2.54V9.798c0-2.508 1.493-3.891 3.776-3.891 1.094 0 2.24.195 2.24.195v2.459h-1.264c-1.24 0-1.628.772-1.628 1.563v1.875h2.771l-.443 2.891h-2.328v6.988C18.344 21.129 22 16.992 22 12.001c0-5.522-4.477-9.999-9.999-9.999z"/></svg>
+    </a>
+    <a href="https://www.youtube.com/@CrystalLegendsOfficial" class="social-button" title="YouTube">
+      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M21.543 6.498C22 8.28 22 12 22 12s0 3.72-.457 5.502c-.254.985-.997 1.76-1.938 2.022C17.896 20 12 20 12 20s-5.893 0-7.605-.476c-.945-.266-1.687-1.04-1.938-2.022C2 15.72 2 12 2 12s0-3.72.457-5.502c.254-.985.997-1.76 1.938-2.022C6.107 4 12 4 12 4s5.896 0 7.605.476c.945.266 1.687 1.04 1.938 2.022zM10 15.5l6-3.5-6-3.5v7z"/></svg>
+    </a>
+    <a href="https://discord.gg/R3JXKJAyuZ" class="social-button" title="Discord">
+      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.17.33.26c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/></svg>
+    </a>
+  </aside>
+</div>
+
+<script>let currentLang = 'en';
+function showHeroes() {
+  console.log("Exibindo heróis...");
+  document.getElementById('mainContent').style.display = 'none';
+  document.getElementById('heroesSection').style.display = 'block';
+}
+function showMain() {
+  document.getElementById('mainContent').style.display = 'block';
+  document.getElementById('heroesSection').style.display = 'none';
+  document.getElementById('helpSection').style.display = 'none';
+  document.getElementById('tierListSection').style.display = 'none';
+}
+function toggleCodesPopup() {
+  const popup = document.getElementById('codesPopup');
+  popup.classList.toggle('show');
+}
+function copyCode(code) {
+  navigator.clipboard.writeText(code).then(() => {
+    alert(translations[currentLang].codeCopied.replace('{code}', code));
+  }).catch(err => {
+    console.error('Failed to copy code:', err);
+  });
+}
+function showHeroPopup() {
+  document.getElementById('heroPopup').classList.add('show');
+}
+function hideHeroPopup() {
+  document.getElementById('heroPopup').classList.remove('show');
+}
+function showWelcomeScreen() {
+  currentLang = 'en';
+  document.getElementById('welcomeScreen').style.display = 'flex';
+  document.getElementById('exitButton').style.display = 'none';
+  const currentFlag = document.querySelector('.language-button .flag-icon');
+  const currentLanguageText = document.getElementById('currentLanguage');
+  currentFlag.src = 'https://flagcdn.com/w20/us.png';
+  currentLanguageText.textContent = 'English';
+}
+function showHelp() {
+  document.getElementById('mainContent').style.display = 'none';
+  document.getElementById('heroesSection').style.display = 'none';
+  document.getElementById('helpSection').style.display = 'block';
+}
+function showTierList() {
+  document.getElementById('mainContent').style.display = 'none';
+  document.getElementById('heroesSection').style.display = 'none';
+  document.getElementById('helpSection').style.display = 'none';
+  document.getElementById('tierListSection').style.display = 'block';
+}
+const translations = {
+  en: {
+    welcome: "Welcome to Crystal Legends Wiki",
+    newFeatures: "We've just released exciting new features! Check out the latest changes and enhancements to enhance your experience.",
+    aboutTitle: "About the Game",
+    aboutText: "Crystal Legends is an epic mobile RPG that combines strategic gameplay with stunning visuals. Embark on an extraordinary journey through a mystical realm where powerful crystals hold the key to ultimate power.",
+    featuresTitle: "Features",
+    featuresList: ["Collect and evolve unique heroes", "Strategic turn-based combat", "PvP arena battles", "Guild warfare", "Regular events and updates"],
+    heroesSection: "Heroes Section",
+    heroesTitle: "Heroes of Crystal Legends",
+    heroesText: "In Crystal Legends, heroes are the backbone of your journey. Each hero is unique, with special abilities and traits that bring something valuable to your team. From powerful Paladins to enigmatic Sorcerers, you'll encounter a wide array of legendary figures, each with their own background and strengths.",
+    learnMore: "Click here to learn more about Heroes",
+    backToMain: "← Back to Main Page",
+    heroDetails: "Hero Details",
+    heroInfo: {
+      name: "Name",
+      title: "Captain",
+      tier: "Tier",
+      tierLevel: "T3",
+      abilities: "Abilities",
+      skills: {
+        spectralShip: {
+          name: "Spectral Ship",
+          description: "Summons a ship to charge toward enemies, dealing Magic Damage and Stunning them."
+        },
+        floodSurge: {
+          name: "Flood Surge",
+          description: "Summons flood to attack a random enemy, dealing Magic Damage, inflicting Knockup and Stun."
+        },
+        aquaticBlade: {
+          name: "Aquatic Blade",
+          description: "Wields the blade, dealing Physical Damage to enemies in a small range."
+        },
+        empoweredForce: {
+          name: "Empowered Force",
+          description: "Increases Strength."
+        }
+      }
+    },
+    close: "Close",
+    codeCopied: "Code {code} copied to clipboard!",
+    skillLevel: "LV",
+    skillLevels: {
+      spectralShip: ["Sends allies and captain a rum boost, garanting them 20% final physical.", "Increases Damage dealt to 4.9 Magic Intensity.", "Extends Stun duration to 5 seconds."],
+      floodSurge: ["Increases Damage dealt to 1.4 Magic Intensity.", "Extends Stun duration to 3 seconds.", "Increases Damage dealt to 1.6 Magic Intensity."],
+      aquaticBlade: ["Reduces Move Speed and Haste of enemies hit by Aquatic Blade by 25 for 3 seconds.", "Increases Damage dealt to 1.2 Physical Attack.", "Increases Damage dealt to 1.4 Physical Attack."],
+      empoweredForce: ["Increases Strength by 15.", "Increases Strength by 25.", "Increases Strength by 40."]
+    },
+    help: {
+      title: "Help",
+      description: "Find quick answers to common questions and solutions to frequent problems. Explore our guides and tips to make the most of your experience.",
+      button: "Access Here",
+      section: "Help Section",
+      tipsTitle: "Useful Tips",
+      tipText: "In the game, clicking multiple times on the current banner image located on the map will reward you with 200 diamonds. Take advantage of this opportunity to accumulate extra diamonds that can be used to enhance your game experience. Remember that you need to click several times to get the reward, so be sure to explore the map and secure your prize!"
+    },
+    tierList: {
+      title: "Tier List",
+      description: "Check out our tier list to see which heroes stand out in the game! Discover the best to optimize your strategy and achieve victory.",
+      button: "See here",
+      section: "Tier List Section",
+      mainTitle: "Hero Tier List",
+      content: "Our hero tier list has been carefully crafted to help you choose the best characters for your team. We have analyzed the abilities, strength, versatility, and performance of each hero in different situations of the game. See which heroes dominate the battlefield and which can be more effective in your strategy. With this tier list, you will be able to optimize your hero selection and reach the top of the game, see below:"
+    }
+  },
+  pt: {
+    welcome: "Bem-vindo à Wiki do Crystal Legends",
+    newFeatures: "Acabamos de lançar novos recursos emocionantes! Confira as últimas mudanças e melhorias para aprimorar sua experiência.",
+    aboutTitle: "Sobre o Jogo",
+    aboutText: "Crystal Legends é um RPG móvel épico que combina jogabilidade estratégica com visuais deslumbrantes. Embarque em uma jornada extraordinária por um reino místico onde cristais poderosos guardam a chave do poder supremo.",
+    featuresTitle: "Características",
+    featuresList: ["Colete e evolua heróis únicos", "Combate estratégico por turnos", "Batalhas PvP na arena", "Guerra entre guildas", "Eventos e atualizações regulares"],
+    heroesSection: "Seção de Heróis",
+    heroesTitle: "Heróis de Crystal Legends",
+    heroesText: "Em Crystal Legends, os heróis são a espinha dorsal da sua jornada. Cada herói é único, com habilidades e características especiais que trazem algo valioso para sua equipe. De poderosos Paladinos a enigmáticos Feiticeiros, você encontrará uma ampla variedade de figuras lendárias, cada uma com sua própria história e pontos fortes.",
+    learnMore: "Clique aqui para saber mais sobre Heróis",
+    backToMain: "← Voltar à Página Principal",
+    heroDetails: "Detalhes do Herói",
+    heroInfo: {
+      name: "Nome",
+      title: "Capitão",
+      tier: "Nível",
+      tierLevel: "T3",
+      abilities: "Habilidades",
+      skills: {
+        spectralShip: {
+          name: "Navio Espectral",
+          description: "Invoca um navio para atacar os inimigos, causando Dano Mágico e Atordoamento."
+        },
+        floodSurge: {
+          name: "Onda de Inundação",
+          description: "Invoca uma inundação para atacar um inimigo aleatório, causando Dano Mágico, Arremesso e Atordoamento."
+        },
+        aquaticBlade: {
+          name: "Lâmina Aquática",
+          description: "Empunha a lâmina, causando Dano Físico aos inimigos em uma pequena área."
+        },
+        empoweredForce: {
+          name: "Força Potencializada",
+          description: "Aumenta a Força."
+        }
+      }
+    },
+    close: "Fechar",
+    codeCopied: "Código {code} copiado para área de transferência!",
+    skillLevel: "NV",
+    skillLevels: {
+      spectralShip: ["Envia um impulso de rum para aliados e capitão, garantindo 20% de físico final.", "Aumenta o dano causado para 4.9 de Intensidade Mágica.", "Estende a duração do Atordoamento para 5 segundos."],
+      floodSurge: ["Aumenta o dano causado para 1.4 de Intensidade Mágica.", "Estende a duração do Atordoamento para 3 segundos.", "Aumenta o dano causado para 1.6 de Intensidade Mágica."],
+      aquaticBlade: ["Reduz a Velocidade de Movimento e a Pressa dos inimigos atingidos pela Lâmina Aquática em 25 por 3 segundos.", "Aumenta o dano causado para 1.2 de Ataque Físico.", "Aumenta o dano causado para 1.4 de Ataque Físico."],
+      empoweredForce: ["Aumenta a Força em 15.", "Aumenta a Força em 25.", "Aumenta a Força em 40."]
+    },
+    help: {
+      title: "Ajuda",
+      description: "Encontre respostas rápidas para dúvidas comuns e soluções para problemas frequentes. Explore nossos guias e dicas para aproveitar ao máximo a experiência.",
+      button: "Acesse Aqui",
+      section: "Seção de Ajuda",
+      tipsTitle: "Dicas Úteis",
+      tipText: "No jogo, ao clicar várias vezes na imagem do banner atual localizado no mapa, você será recompensado com 200 diamantes. Aproveite essa oportunidade para acumular diamantes extras, que podem ser usados para melhorar sua experiência no jogo. Lembre-se de que é necessário clicar várias vezes para obter a recompensa, então não deixe de explorar o mapa e garantir sua premiação!"
+    },
+    tierList: {
+      title: "Lista de Níveis",
+      description: "Confira nossa tierlist para ver quais heróis se destacam no jogo! Descubra os melhores para otimizar sua estratégia e alcançar a vitória.",
+      button: "Veja aqui",
+      section: "Seção de Lista de Níveis",
+      mainTitle: "Lista de Níveis de Heróis",
+      content: "Nossa tierlist de heróis foi cuidadosamente elaborada para ajudar você a escolher os melhores personagens para sua equipe. Analisamos as habilidades, força, versatilidade e desempenho de cada herói em diferentes situações do jogo. Veja quais heróis dominam o campo de batalha e quais podem ser mais eficazes em sua estratégia. Com esta tierlist, você poderá otimizar sua seleção de heróis e alcançar o topo do jogo, veja abaixo:"
+    }
+  },
+  es: {
+    welcome: "Bienvenido a Crystal Legends Wiki",
+    newFeatures: "¡Acabamos de lanzar nuevas características emocionantes! Echa un vistazo a los últimos cambios y mejoras para mejorar tu experiencia.",
+    aboutTitle: "Sobre el Juego",
+    aboutText: "Crystal Legends es un RPG móvil épico que combina jugabilidad estratégica con impresionantes visuales. Embárcate en un viaje extraordinario a través de un reino místico donde poderosos cristales guardan la llave del poder supremo.",
+    featuresTitle: "Características",
+    featuresList: ["Colecciona y evoluciona héroes únicos", "Combate estratégico por turnos", "Batallas PvP en arena", "Guerra de gremios", "Eventos y actualizaciones regulares"],
+    heroesSection: "Sección de Héroes",
+    heroesTitle: "Héroes de Crystal Legends",
+    heroesText: "En Crystal Legends, los héroes son la columna vertebral de tu viaje. Cada héroe es único, con habilidades y rasgos especiales que aportan algo valioso a tu equipo. Desde poderosos Paladines hasta enigmáticos Hechiceros, encontrarás una amplia variedad de figuras legendarias, cada una con su propia historia y fortalezas.",
+    learnMore: "Haz clic aquí para saber más sobre Héroes",
+    backToMain: "← Volver a la Página Principal",
+    heroDetails: "Detalles del Héroe",
+    activeCodes: "Códigos Activos",
+    close: "Cerrar",
+    codeCopied: "¡Código {code} copiado al portapapeles!",
+    heroInfo: {
+      name: "Nombre",
+      title: "Capitán",
+      tier: "Nivel",
+      tierLevel: "T3",
+      abilities: "Habilidades",
+      skills: {
+        spectralShip: {
+          name: "Barco Espectral",
+          description: "Invoca un barco para cargar contra los enemigos, causando Daño Mágico y Aturdimiento."
+        },
+        floodSurge: {
+          name: "Oleada de Inundación",
+          description: "Invoca una inundación para atacar a un enemigo aleatorio, causando Daño Mágico, Levantamiento y Aturdimiento."
+        },
+        aquaticBlade: {
+          name: "Espada Acuática",
+          description: "Blande la espada, causando Daño Físico a los enemigos en un área pequeña."
+        },
+        empoweredForce: {
+          name: "Fuerza Potenciada",
+          description: "Aumenta la Fuerza."
+        }
+      }
+    },
+    skillLevel: "NV",
+    skillLevels: {
+      spectralShip: ["Envía un impulso de ron a los aliados y al capitán, garantizándoles un 20% de físico final.", "Aumenta el daño causado a 4.9 de Intensidad Mágica.", "Extiende la duración del Aturdimiento a 5 segundos."],
+      floodSurge: ["Aumenta el daño causado a 1.4 de Intensidad Mágica.", "Extiende la duración del Aturdimiento a 3 segundos.", "Aumenta el daño causado a 1.6 de Intensidad Mágica."],
+      aquaticBlade: ["Reduce la Velocidad de Movimiento y la Prisa de los enemigos golpeados por la Espada Acuática en 25 durante 3 segundos.", "Aumenta el daño causado a 1.2 de Ataque Físico.", "Aumenta el daño causado a 1.4 de Ataque Físico."],
+      empoweredForce: ["Aumenta la Fuerza en 15.", "Aumenta la Fuerza en 25.", "Aumenta la Fuerza en 40."]
+    },
+    help: {
+      title: "Ayuda",
+      description: "Encuentra respuestas rápidas a preguntas comunes y soluciones a problemas frecuentes. Explora nuestras guías y consejos para aprovechar al máximo tu experiencia.",
+      button: "Acceder Aquí",
+      section: "Sección de Ayuda",
+      tipsTitle: "Consejos Útiles",
+      tipText: "En el juego, hacer clic varias veces en la imagen del banner actual ubicada en el mapa te recompensará con 200 diamantes. Aprovecha esta oportunidad para acumular diamantes extra que se pueden usar para mejorar tu experiencia de juego. Recuerda que necesitas hacer clic varias veces para obtener la recompensa, ¡así que asegúrate de explorar el mapa y asegurar tu premio!"
+    },
+    tierList: {
+      title: "Lista de Niveles",
+      description: "¡Consulta nuestra lista de niveles para ver qué héroes destacan en el juego! Descubre los mejores para optimizar tu estrategia y alcanzar la victoria.",
+      button: "Ver aquí",
+      section: "Sección de Lista de Niveles",
+      mainTitle: "Lista de Niveles de Héroes",
+      content: "Nuestra lista de niveles de héroes ha sido cuidadosamente elaborada para ayudarte a elegir los mejores personajes para tu equipo. Hemos analizado las habilidades, fuerza, versatilidad y rendimiento de cada héroe en diferentes situaciones del juego. Ve qué héroes dominan el campo de batalla y cuáles pueden ser más efectivos en tu estrategia. Con esta lista de niveles, podrás optimizar tu selección de héroes y alcanzar la cima del juego, ¡ve abajo!"
+    }
+  },
+  zh: {
+    welcome: "欢迎来到水晶传说维基",
+    newFeatures: "我们刚刚发布了令人兴奋的新功能！查看最新的更改和增强功能，以提升您的体验。",
+    aboutTitle: "关于游戏",
+    aboutText: "水晶传说是一款史诗般的移动 RPG，结合了战略游戏玩法和令人惊叹的视觉效果。踏上一个非凡的旅程，穿越一个神秘的领域，在那里强大的水晶掌握着至高无上的力量钥匙。",
+    featuresTitle: "特点",
+    featuresList: ["收集和进化独特的英雄", "战略回合制战斗", "PvP竞技场战斗", "公会战争", "定期活动和更新"],
+    heroesSection: "英雄部分",
+    heroesTitle: "水晶传说英雄",
+    heroesText: "在水晶传说中，英雄是您旅程的支柱。每个英雄都是独一无二的，具有特殊的能力和特征，为您的团队带来有价值的东西。从强大的圣骑士到神秘的巫师，您将遇到各种传奇人物，每个人都有自己的背景和优势。",
+    learnMore: "点击此处了解有关英雄的更多信息",
+    backToMain: "← 返回主页",
+    heroDetails: "英雄详细信息",
+    activeCodes: "当前代码",
+    close: "关闭",
+    codeCopied: "代码 {code} 已复制到剪贴板！",
+    heroInfo: {
+      name: "名字",
+      title: "队长",
+      tier: "级别",
+      tierLevel: "T3",
+      abilities: "能力",
+      skills: {
+        spectralShip: {
+          name: "幽灵舰",
+          description: "召唤一艘船向敌人冲锋，造成魔法伤害并使其眩晕。"
+        },
+        floodSurge: {
+          name: "洪水潮涌",
+          description: "召唤洪水攻击随机敌人，造成魔法伤害，造成击飞和眩晕。"
+        },
+        aquaticBlade: {
+          name: "水之刃",
+          description: "挥动刀刃，对小范围内的敌人造成物理伤害。"
+        },
+        empoweredForce: {
+          name: "强化力量",
+          description: "增加力量。"
+        }
+      }
+    },
+    skillLevel: "级",
+    skillLevels: {
+      spectralShip: ["向盟友和队长发送一瓶朗姆酒，保证他们20%的最终物理伤害。", "将造成的伤害增加到4.9魔法强度。", "将眩晕持续时间延长至5秒。"],
+      floodSurge: ["将造成的伤害增加到1.4魔法强度。", "将眩晕持续时间延长至3秒。", "将造成的伤害增加到1.6魔法强度。"],
+      aquaticBlade: ["降低被水之刃击中的敌人的移动速度和急速25，持续3秒。", "将造成的伤害增加到1.2物理攻击。", "将造成的伤害增加到1.4物理攻击。"],
+      empoweredForce: ["增加15的力量。", "增加25的力量。", "增加40的力量。"]
+    },
+    help: {
+      title: "帮助",
+      description: "找到常见问题和常见问题的快速答案和解决方案。 探索我们的指南和提示，以充分利用您的体验。",
+      button: "访问这里",
+      section: "帮助部分",
+      tipsTitle: "有用的提示",
+      tipText: "在游戏中，点击地图上当前横幅图像多次将奖励您200颗钻石。 利用这个机会积累额外的钻石，这些钻石可以用来提升您的游戏体验。 请记住，您需要多次点击才能获得奖励，因此请务必探索地图并确保获得您的奖品！"
+    },
+    tierList: {
+      title: "分级列表",
+      description: "查看我们的分级列表，以了解游戏中哪些英雄表现突出！ 发现最佳英雄以优化您的策略并获得胜利。",
+      button: "在这里查看",
+      section: "分级列表部分",
+      mainTitle: "英雄分级列表",
+      content: "我们的英雄分级列表经过精心设计，以帮助您选择适合您团队的最佳角色。 我们分析了每个英雄在游戏不同情况下的技能、力量、灵活性和表现。 查看哪些英雄在战场上占据主导地位，哪些在您的策略中可能更有效。 有了这个分级列表，您将能够优化您的英雄选择并达到游戏的顶峰，见下文："
+    }
+  },
+  bg: {
+    welcome: "Добре дошли в Crystal Legends Wiki",
+    newFeatures: "Току-що пуснахме вълнуващи нови функции! Проверете последните промени и подобрения, за да подобрите опита си.",
+    aboutTitle: "За играта",
+    aboutText: "Crystal Legends е епичен мобилен RPG, който съчетава стратегически геймплей с зашеметяваща визуализация. Започнете изключително пътешествие през мистичен свят, където мощните кристали притежават ключа към върховната сила.",
+    featuresTitle: "Характеристики",
+    featuresList: ["Събирайте и еволюирайте уникални герои", "Стратегически битки на ходове", "PvP арена битки", "Гилдийни войни", "Редовни събития и актуализации"],
+    heroesSection: "Секция с герои",
+    heroesTitle: "Герои на Crystal Legends",
+    heroesText: "В Crystal Legends героите са основата на вашето пътешествие. Всеки герой е уникален, с специални способности и черти, които внасят нещо ценно в екипа ви. От мощни Паладини до загадъчни Магьосници, ще срещнете разнообразие от легендарни фигури, всяка с собствена история и предимства.",
+    learnMore: "Щракнете тук, за да научите повече за героите",
+    backToMain: "← Обратно към главната страница",
+    heroDetails: "Детайли за героя",
+    activeCodes: "Активни кодове",
+    close: "Затвори",
+    codeCopied: "Код {code} копиран в клипборда!",
+    heroInfo: {
+      name: "Име",
+      title: "Капитан",
+      tier: "Ниво",
+      tierLevel: "T3",
+      abilities: "Способности",
+      skills: {
+        spectralShip: {
+          name: "Ефирен кораб",
+          description: "Призовава кораб, който да атакува враговете, нанасяйки магически щети и зашеметявайки ги."
+        },
+        floodSurge: {
+          name: "Потопяваща вълна",
+          description: "Призовава наводнение, за да атакува случаен враг, нанасяйки магически щети, нанасяйки повдигане и зашеметяване."
+        },
+        aquaticBlade: {
+          name: "Воден нож",
+          description: "Размахва ножа, нанасяйки физически щети на враговете в малък радиус."
+        },
+        empoweredForce: {
+          name: "Усилена сила",
+          description: "Увеличава силата."
+        }
+      }
+    },
+    skillLevel: "НВ",
+    skillLevels: {
+      spectralShip: ["Изпраща на съюзниците и капитана бутилка ром, гарантирайки им 20% финални физически щети.", "Увеличава нанесените щети до 4.9 магическа интензивност.", "Удължава продължителността на зашеметяването на 5 секунди."],
+      floodSurge: ["Увеличава нанесените щети до 1.4 магическа интензивност.", "Удължава продължителността на зашеметяването на 3 секунди.", "Увеличава нанесените щети до 1.6 магическа интензивност."],
+      aquaticBlade: ["Намалява скоростта на движение и бързината на враговете, ударени от водния нож с 25 за 3 секунди.", "Увеличава нанесените щети до 1.2 физическа атака.", "Увеличава нанесените щети до 1.4 физическа атака."],
+      empoweredForce: ["Увеличава силата с 15.", "Увеличава силата с 25.", "Увеличава силата с 40."]
+    },
+    help: {
+      title: "Помощ",
+      description: "Намерете бързи отговори на често срещани въпроси и решения на чести проблеми. Изследвайте нашите ръководства и съвети, за да се възползвате максимално от преживяването си.",
+      button: "Достъп до тук",
+      section: "Секция за помощ",
+      tipsTitle: "Полезни съвети",
+      tipText: "В играта, щракването много пъти върху текущото изображение на банера, разположено на картата, ще ви възнагради с 200 диаманта. Възползвайте се от тази възможност да натрупате допълнителни диаманти, които могат да се използват за подобряване на игровото ви преживяване. Не забравяйте, че трябва да щракнете няколко пъти, за да получите наградата, така че не забравяйте да проучите картата и да осигурите наградата си!"
+    },
+    tierList: {
+      title: "Списък на нивата",
+      description: "Вижте нашия списък на нивата, за да видите кои герои се отк突ват в играта! Открийте най-добрите, за да оптимизирате стратегията си и да постигнете победа.",
+      button: "Вижте тук",
+      section: "Секция на списъка с нива",
+      mainTitle: "Списък на героите",
+      content: "Нашият списък на героите е внимателно изработен, за да ви помогне да изберете най-добрите герои за вашия екип. Анализирахме уменията, силата, гъвкавостта и представянето на всеки герой в различни ситуации от играта. Вижте кои герои доминират на бойното поле и кои могат да бъдат по-ефективни във вашата стратегия. С този списък на нива можете да оптимизирате избора си на герои и да достигнете върха на играта, вижте по-долу:"
+    }
+  },
+  de: {
+    welcome: "Willkommen bei Crystal Legends Wiki",
+    newFeatures: "Wir haben gerade aufregende neue Funktionen veröffentlicht! Sehen Sie sich die neuesten Änderungen und Verbesserungen an, um Ihr Erlebnis zu verbessern.",
+    aboutTitle: "Über das Spiel",
+    aboutText: "Crystal Legends ist ein episches mobiles RPG, das strategisches Gameplay mit atemberaubenden Grafiken kombiniert. Begeben Sie sich auf eine außergewöhnliche Reise durch ein mystisches Reich, in dem mächtige Kristalle den Schlüssel zur ultimativen Macht halten.",
+    featuresTitle: "Merkmale",
+    featuresList: ["Sammeln und entwickeln Sie einzigartige Helden", "Strategische rundenbasierte Kämpfe", "PvP-Arenakämpfe", "Gildenkriege", "Regelmäßige Events und Updates"],
+    heroesSection: "Heldenbereich",
+    heroesTitle: "Helden von Crystal Legends",
+    heroesText: "In Crystal Legends sind die Helden das Rückgrat Ihrer Reise. Jeder Held ist einzigartig, mit besonderen Fähigkeiten und Eigenschaften, die Ihrem Team etwas Wertvolles bringen. Von mächtigen Paladinen bis zu geheimnisvollen Zauberern werden Sie eine breite Palette legendärer Figuren treffen, jede mit ihrer eigenen Geschichte und ihren Stärken.",
+    learnMore: "Klicken Sie hier, um mehr über Helden zu erfahren",
+    backToMain: "← Zur Hauptseite zurück",
+    heroDetails: "Helden Details",
+    activeCodes: "Aktive Codes",
+    close: "Schließen",
+    codeCopied: "Code {code} in die Zwischenablage kopiert!",
+    heroInfo: {
+      name: "Name",
+      title: "Kapitän",
+      tier: "Stufe",
+      tierLevel: "T3",
+      abilities: "Fähigkeiten",
+      skills: {
+        spectralShip: {
+          name: "Spektral Schiff",
+          description: "Beschwört ein Schiff, das auf Feinde zurast und magischen Schaden verursacht und sie betäubt."
+        },
+        floodSurge: {
+          name: "Flutwelle",
+          description: "Beschwört eine Flut, um einen zufälligen Feind anzugreifen, und verursacht magischen Schaden, hebt ihn an und betäubt ihn."
+        },
+        aquaticBlade: {
+          name: "Wasser-Klinge",
+          description: "Führt die Klinge, um physischen Schaden an Feinden in einem kleinen Bereich zu verursachen."
+        },
+        empoweredForce: {
+          name: "Ermächtigte Kraft",
+          description: "Erhöht die Stärke."
+        }
+      }
+    },
+    skillLevel: "LV",
+    skillLevels: {
+      spectralShip: ["Sendet den Verbündeten und dem Kapitän einen Rum-Schub, der ihnen 20% endgültigen physischen Schaden garantiert.", "Erhöht den verursachten Schaden auf 4.9 magische Intensität.", "Erhöht die Betäubungsdauer auf 5 Sekunden."],
+      floodSurge: ["Erhöht den verursachten Schaden auf 1.4 magische Intensität.", "Erhöht die Betäubungsdauer auf 3 Sekunden.", "Erhöht den verursachten Schaden auf 1.6 magische Intensität."],
+      aquaticBlade: ["Verringert die Bewegungsgeschwindigkeit und die Eile von Feinden, die von der Wasser-Klinge getroffen wurden, um 25 für 3 Sekunden.", "Erhöht den verursachten Schaden auf 1.2 physische Angriffe.", "Erhöht den verursachten Schaden auf 1.4 physische Angriffe."],
+      empoweredForce: ["Erhöht die Stärke um 15.", "Erhöht die Stärke um 25.", "Erhöht die Stärke um 40."]
+    },
+    help: {
+      title: "Hilfe",
+      description: "Finden Sie schnelle Antworten auf häufige Fragen und Lösungen für häufige Probleme. Erkunden Sie unsere Anleitungen und Tipps, um das Beste aus Ihrem Erlebnis herauszuholen.",
+      button: "Hier zugreifen",
+      section: "Hilfebereich",
+      tipsTitle: "Nützliche Tipps",
+      tipText: "Im Spiel belohnt Sie das mehrmalige Klicken auf das aktuelle Bannerbild auf der Karte mit 200 Diamanten. Nutzen Sie diese Gelegenheit, um zusätzliche Diamanten zu sammeln, die zur Verbesserung Ihres Spielerlebnisses verwendet werden können. Denken Sie daran, dass Sie mehrmals klicken müssen, um die Belohnung zu erhalten, also erkunden Sie die Karte und sichern Sie sich Ihren Preis!"
+    },
+    tierList: {
+      title: "Tier Liste",
+      description: "Sehen Sie sich unsere Tierliste an, um zu sehen, welche Helden im Spiel herausragen! Entdecken Sie die besten, um Ihre Strategie zu optimieren und den Sieg zu erzielen.",
+      button: "Hier ansehen",
+      section: "Tierlistenbereich",
+      mainTitle: "Helden Tier Liste",
+      content: "Unsere Tierliste der Helden wurde sorgfältig erstellt, um Ihnen zu helfen, die besten Charaktere für Ihr Team auszuwählen. Wir haben die Fähigkeiten, die Stärke, die Vielseitigkeit und die Leistung jedes Helden in verschiedenen Spielsituationen analysiert. Sehen Sie, welche Helden das Schlachtfeld dominieren und welche in Ihrer Strategie effektiver sein können. Mit dieser Tierliste können Sie Ihre Heldenauswahl optimieren und an die Spitze des Spiels gelangen, siehe unten:"
+    }
+  },
+  ko: {
+    welcome: "Crystal Legends 위키에 오신 것을 환영합니다",
+    newFeatures: "흥미진진한 새로운 기능을 출시했습니다! 경험을 향상시키기 위한 최신 변경 사항과 개선 사항을 확인하세요.",
+    aboutTitle: "게임 소개",
+    aboutText: "Crystal Legends는 전략적 게임플레이와 멋진 비주얼을 결합한 에픽 모바일 RPG입니다. 강력한 크리스탈이 궁극의 힘을 지닌 신비한 영역을 통해 특별한 여정을 시작하세요.",
+    featuresTitle: "특징",
+    featuresList: ["독특한 영웅 수집 및 진화", "전략적 턴제 전투", "PvP 아레나 전투", "길드 전쟁", "정기적인 이벤트 및 업데이트"],
+    heroesSection: "영웅 섹션",
+    heroesTitle: "Crystal Legends의 영웅들",
+    heroesText: "Crystal Legends에서 영웅들은 당신의 여정의 중추입니다. 각 영웅은 팀에 가치있는 것을 가져다주는 특별한 능력과 특성을 가진 독특한 존재입니다. 강력한 팔라딘에서 신비로운 마법사까지, 각자의 배경과 강점을 가진 다양한 전설적 인물들을 만나게 될 것입니다.",
+    learnMore: "영웅에 대해 자세히 알아보기",
+    backToMain: "← 메인 페이지로 돌아가기",
+    heroDetails: "영웅 상세정보",
+    activeCodes: "활성 코드",
+    close: "닫기",
+    codeCopied: "코드 {code}가 클립보드에 복사되었습니다!",
+    heroInfo: {
+      name: "이름",
+      title: "캡틴",
+      tier: "등급",
+      tierLevel: "T3",
+      abilities: "능력",
+      skills: {
+        spectralShip: {
+          name: "유령선",
+          description: "적들을 향해 돌진하는 배를 소환하여 마법 피해를 주고 기절시킵니다."
+        },
+        floodSurge: {
+          name: "홍수 파도",
+          description: "무작위 적을 공격하는 홍수를 소환하여 마법 피해를 주고, 띄우기와 기절을 부여합니다."
+        },
+        aquaticBlade: {
+          name: "수중 검",
+          description: "작은 범위의 적들에게 물리 피해를 주는 검을 휘두릅니다."
+        },
+        empoweredForce: {
+          name: "강화된 힘",
+          description: "힘을 증가시킵니다."
+        }
+      }
+    },
+    skillLevel: "레벨",
+    skillLevels: {
+      spectralShip: ["아군과 캡틴에게 럼 부스트를 보내 20% 최종 물리 피해를 보장합니다.", "마법 강도 4.9로 피해량이 증가합니다.", "기절 지속시간이 5초로 연장됩니다."],
+      floodSurge: ["마법 강도 1.4로 피해량이 증가합니다.", "기절 지속시간이 3초로 연장됩니다.", "마법 강도 1.6으로 피해량이 증가합니다."],
+      aquaticBlade: ["수중 검에 맞은 적의 이동 속도와 가속을 3초 동안 25만큼 감소시킵니다.", "물리 공격력 1.2배로 피해량이 증가합니다.", "물리 공격력 1.4배로 피해량이 증가합니다."],
+      empoweredForce: ["힘이 15 증가합니다.", "힘이 25 증가합니다.", "힘이 40 증가합니다."]
+    },
+    help: {
+      title: "도움말",
+      description: "자주 묻는 질문과 일반적인 문제에 대한 빠른 답변과 솔루션을 찾으세요. 경험을 최대한 활용할 수 있도록 가이드와 팁을 탐색하세요.",
+      button: "여기를 방문하세요",
+      section: "도움말 섹션",
+      tipsTitle: "유용한 팁",
+      tipText: "게임에서 지도에 있는 현재 배너 이미지를 여러 번 클릭하면 200 다이아몬드를 보상으로 받을 수 있습니다. 이 기회를 활용하여 게임 경험을 향상시키는 데 사용할 수 있는 추가 다이아몬드를 축적하세요. 보상을 받으려면 여러 번 클릭해야 하므로 지도를 탐색하고 상품을 확보해야 합니다!"
+    },
+    tierList: {
+      title: "티어 리스트",
+      description: "게임에서 어떤 영웅들이 두드러지는지 보기 위해 우리의 티어 리스트를 확인하세요! 전략을 최적화하고 승리에 도달하기 위해 최고의 영웅을 발견하세요.",
+      button: "여기에서 보기",
+      section: "티어 리스트 섹션",
+      mainTitle: "영웅 티어 리스트",
+      content: "우리의 영웅 티어 리스트는 팀을 위한 최고의 캐릭터를 선택하는 데 도움을 주기 위해 신중하게 작성되었습니다. 우리는 게임의 다양한 상황에서 각 영웅의 능력, 힘, 다재다능함 및 성능을 분석했습니다. 어떤 영웅이 전장에 지배적이고, 어떤 영웅이 당신의 전략에서 더 효과적일 수 있는지 확인하세요. 이 티어 리스트로 영웅 선택을 최적화하고 게임의 정상에 도달할 수 있습니다. 아래를 확인하세요:"
+    }
+  },
+  ro: {
+    welcome: "Bine ați venit la Crystal Legends Wiki",
+    newFeatures: "Tocmai am lansat funcții noi și interesante! Verificați ultimele modificări și îmbunătățiri pentru a vă îmbunătăți experiența.",
+    aboutTitle: "Despre joc",
+    aboutText: "Crystal Legends este un RPG epic pentru mobil care combină gameplay-ul strategic cu grafică uimitoare. Pornește într-o călătorie extraordinară printr-un tărâm mistic unde cristalele puternice dețin cheia puterii supreme.",
+    featuresTitle: "Caracteristici",
+    featuresList: ["Colectează și evoluează eroi unici", "Luptă strategică pe ture", "Lupte PvP în arenă", "Război între bresle", "Evenimente și actualizări regulate"],
+    heroesSection: "Secțiunea Eroi",
+    heroesTitle: "Eroii din Crystal Legends",
+    heroesText: "În Crystal Legends, eroii sunt coloana vertebrală a călătoriei tale. Fiecare erou este unic, cu abilități și trăsături speciale care aduc ceva valoros echipei tale. De la Paladini puternici până la Vrăjitori enigmatici, vei întâlni o varietate largă de figuri legendare, fiecare cu propriul său trecut și puncte forte.",
+    learnMore: "Click aici pentru a afla mai multe despre Eroi",
+    backToMain: "← Înapoi la pagina principală",
+    heroDetails: "Detalii Erou",
+    activeCodes: "Coduri Active",
+    close: "Închide",
+    codeCopied: "Codul {code} a fost copiat în clipboard!",
+    heroInfo: {
+      name: "Nume",
+      title: "Căpitan",
+      tier: "Nivel",
+      tierLevel: "T3",
+      abilities: "Abilități",
+      skills: {
+        spectralShip: {
+          name: "Navă Spectrală",
+          description: "Invocă o navă care se năpustește asupra inamicilor, provocând Daune Magice și Amețeală."
+        },
+        floodSurge: {
+          name: "Val de Inundație",
+          description: "Invocă o inundație pentru a ataca un inamic aleatoriu, provocând Daune Magice, Ridicare și Amețeală."
+        },
+        aquaticBlade: {
+          name: "Lamă Acvatică",
+          description: "Mânuiește lama, provocând Daune Fizice inamicilor într-o rază mică."
+        },
+        empoweredForce: {
+          name: "Forță Împuternicită",
+          description: "Crește Puterea."
+        }
+      }
+    },
+    skillLevel: "NV",
+    skillLevels: {
+      spectralShip: ["Trimite aliaților și căpitanului un boost de rom, garantându-le 20% fizic final.", "Crește Daunele provocate la 4.9 Intensitate Magică.", "Extinde durata Amețelii la 5 secunde."],
+      floodSurge: ["Crește Daunele provocate la 1.4 Intensitate Magică.", "Extinde durata Amețelii la 3 secunde.", "Crește Daunele provocate la 1.6 Intensitate Magică."],
+      aquaticBlade: ["Reduce Viteza de Mișcare și Graba inamicilor loviți de Lama Acvatică cu 25 pentru 3 secunde.", "Crește Daunele provocate la 1.2 Atac Fizic.", "Crește Daunele provocate la 1.4 Atac Fizic."],
+      empoweredForce: ["Crește Puterea cu 15.", "Crește Puterea cu 25.", "Crește Puterea cu 40."]
+    },
+    help: {
+      title: "Ajutor",
+      description: "Găsiți răspunsuri rapide la întrebări frecvente și soluții pentru problemele frecvente. Explorați ghidurile și sfaturile noastre pentru a profita la maximum de experiența dumneavoastră.",
+      button: "Accesați aici",
+      section: "Secțiunea de ajutor",
+      tipsTitle: "Sfaturi utile",
+      tipText: "În joc, făcând clic de mai multe ori pe imaginea bannerului curent situată pe hartă, veți fi recompensat cu 200 de diamante. Profitați de această oportunitate pentru a acumula diamante suplimentare care pot fi utilizate pentru a îmbunătăți experiența dumneavoastră de joc. Amintiți-vă că trebuie să faceți clic de mai multe ori pentru a obține recompensa, așa că asigurați-vă că explorați harta și vă asigurați premiul!"
+    },
+    tierList: {
+      title: "Lista de Niveluri",
+      description: "Consultați lista noastră de niveluri pentru a vedea ce eroi se remarcă în joc! Descoperiți cei mai buni pentru a optimiza strategia dvs. și a obține victoria.",
+      button: "Vezi aici",
+      section: "Secțiunea de Lista de Niveluri",
+      mainTitle: "Lista de Niveluri a Eroilor",
+      content: "Lista noastră de niveluri pentru eroi a fost atent elaborată pentru a vă ajuta să alegeți cei mai buni personaje pentru echipa dumneavoastră. Am analizat abilitățile, puterea, versatilitatea și performanța fiecărui erou în diferite situații de joc. Vedeți care eroi domină câmpul de luptă și care pot fi mai eficienți în strategia dumneavoastră. Cu această listă de niveluri, veți putea optimiza selecția de eroi și să ajungeți în vârful jocului, vedeți mai jos:"
+    }
+  }
+};
+function selectInitialLanguage(lang, flagUrl, languageName) {
+  document.getElementById('welcomeScreen').style.display = 'none';
+  document.getElementById('exitButton').style.display = 'block';
+  changeLanguage(lang, flagUrl, languageName);
+  const translation = translations[lang];
+  updatePageContent(translation);
+}
+function toggleLanguageOptions() {
+  const options = document.getElementById('languageOptions');
+  options.classList.toggle('show');
+}
+function changeLanguage(lang, flagUrl, languageName) {
+  if (!translations[lang]) {
+    console.error(`Translation not found for language: ${lang}`);
+    return;
+  }
+  currentLang = lang;
+  const currentFlag = document.querySelector('.language-button .flag-icon');
+  const currentLanguageText = document.getElementById('currentLanguage');
+  if (currentFlag && currentLanguageText) {
+    currentFlag.src = flagUrl;
+    currentLanguageText.textContent = languageName;
+  }
+  const languageOptions = document.getElementById('languageOptions');
+  if (languageOptions) {
+    languageOptions.classList.remove('show');
+  }
+  const translation = translations[lang];
+  updatePageContent(translation);
+}
+function updateHeroPopup(heroPopup, translation) {
+  const heroInfo = translation.heroInfo;
+  heroPopup.querySelector('h2').textContent = translation.heroDetails;
+  const detailsDiv = heroPopup.querySelector('.hero-details');
+  if (detailsDiv) {
+    detailsDiv.innerHTML = `
+      <p><strong>${heroInfo.name}:</strong> ${heroInfo.title}</p>
+      <p><strong>${heroInfo.tier}:</strong> ${heroInfo.tierLevel}</p>
+      <h3>${heroInfo.abilities}</h3>
+    `;
+  }
+  const skillsDiv = heroPopup.querySelector('.hero-info');
+  if (skillsDiv && heroInfo.skills) {
+    const skills = Object.keys(heroInfo.skills).map(skillKey => {
+      const skill = heroInfo.skills[skillKey];
+      if (!skill || !translation.skillLevels || !translation.skillLevels[skillKey]) return '';
+      return `
+        <div class="skill">
+          <h4 data-skill="${skillKey}">${skill.name}</h4>
+          <p>${skill.description}</p>
+          <ul>
+            ${translation.skillLevels[skillKey].map((level, i) => `<li>${translation.skillLevel} ${i + 1}: ${level}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+    }).join('');
+    skillsDiv.innerHTML = `
+      <div class="hero-portrait-container">
+        <img src="https://i.ibb.co/hHmyMx0/17.jpg" alt="${heroInfo.title}" class="hero-portrait">
+      </div>
+      <div class="hero-details">
+        ${detailsDiv.outerHTML}
+        ${skills}
+      </div>
+    `;
+  }
+}
+function updatePageContent(translation) {
+  try {
+    document.querySelector('h1').textContent = translation.welcome;
+    document.querySelector('.announcement').textContent = translation.newFeatures;
+    const aboutCard = document.querySelector('.info-card:nth-child(1)');
+    if (aboutCard) {
+      aboutCard.querySelector('h2').textContent = translation.aboutTitle;
+      aboutCard.querySelector('p').textContent = translation.aboutText;
+    }
+    const featuresCard = document.querySelector('.info-card:nth-child(2)');
+    if (featuresCard) {
+      featuresCard.querySelector('h2').textContent = translation.featuresTitle;
+      const featuresList = featuresCard.querySelector('ul');
+      if (featuresList && translation.featuresList) {
+        featuresList.innerHTML = translation.featuresList.map(feature => `<li>${feature}</li>`).join('');
+      }
+    }
+    const heroesCard = document.querySelector('.info-card:nth-child(3)');
+    if (heroesCard) {
+      heroesCard.querySelector('h2').textContent = translation.heroesTitle;
+      heroesCard.querySelector('p').textContent = translation.heroesText;
+      const ctaButton = heroesCard.querySelector('.cta-button');
+      if (ctaButton) {
+        ctaButton.textContent = translation.learnMore;
+      }
+    }
+    const helpCard = document.querySelector('.info-card:nth-child(4)');
+    if (helpCard) {
+      helpCard.querySelector('h2').textContent = translation.help.title;
+      helpCard.querySelector('p').textContent = translation.help.description;
+      helpCard.querySelector('.cta-button').textContent = translation.help.button;
+    }
+    const tierListCard = document.querySelector('.info-card:nth-child(5)');
+    if (tierListCard) {
+      tierListCard.querySelector('h2').textContent = translation.tierList.title;
+      tierListCard.querySelector('p').textContent = translation.tierList.description;
+      tierListCard.querySelector('.cta-button').textContent = translation.tierList.button;
+    }
+    const backButton = document.querySelector('.back-button');
+    if (backButton) {
+      backButton.textContent = translation.backToMain;
+    }
+    const heroPopup = document.querySelector('#heroPopup');
+    if (heroPopup) {
+      updateHeroPopup(heroPopup, translation);
+    }
+    const codesPopup = document.querySelector('#codesPopup');
+    if (codesPopup) {
+      const codesTitle = codesPopup.querySelector('h2');
+      const closeButton = codesPopup.querySelector('.close-button');
+      if (codesTitle) codesTitle.textContent = translation.activeCodes;
+      if (closeButton) closeButton.textContent = translation.close;
+    }
+    const heroesSection = document.querySelector('#heroesSection');
+    if (heroesSection) {
+      heroesSection.querySelector('h1').textContent = translation.heroesSection;
+      const infoCard = heroesSection.querySelector('.info-card');
+      if (infoCard) {
+        infoCard.querySelector('h2').textContent = translation.heroesTitle;
+        infoCard.querySelector('p').textContent = translation.heroesText;
+      }
+    }
+    const helpSection = document.querySelector('#helpSection');
+    if (helpSection) {
+      helpSection.querySelector('h1').textContent = translation.help.section;
+      const infoCard = helpSection.querySelector('.info-card');
+      if (infoCard) {
+        infoCard.querySelector('h2').textContent = translation.help.tipsTitle;
+        infoCard.querySelector('p').textContent = translation.help.tipText;
+      }
+    }
+    const tierListSection = document.querySelector('#tierListSection');
+    if (tierListSection) {
+      tierListSection.querySelector('h1').textContent = translation.tierList.section;
+      const infoCard = tierListSection.querySelector('.info-card');
+      if (infoCard) {
+        infoCard.querySelector('h2').textContent = translation.tierList.mainTitle;
+        infoCard.querySelector('p').textContent = translation.tierList.content;
+      }
+    }
+  } catch (error) {
+    console.error('Error updating page content:', error);
+  }
+}
+document.addEventListener('click', function (event) {
+  const popup = document.getElementById('codesPopup');
+  const codesButton = document.querySelector('.codes-button');
+  if (popup.classList.contains('show') && !popup.querySelector('.codes-popup-content').contains(event.target) && !codesButton.contains(event.target)) {
+    popup.classList.remove('show');
+  }
+});
+document.querySelectorAll('.language-option').forEach(button => {
+  button.addEventListener('mouseover', function () {
+    this.style.background = 'rgba(255, 255, 255, 0.2)';
+  });
+  button.addEventListener('mouseout', function () {
+    this.style.background = 'rgba(255, 255, 255, 0.1)';
+  });
+});</script>
+
+</body>
+</html>
